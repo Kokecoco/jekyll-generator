@@ -63,7 +63,7 @@
       var author = formData.get('author');
       var content = formData.get('content');
       
-      var currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      var currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ')+" +0900";
 
       var markdownContent = `---
 layout: post
