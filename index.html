@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Jekyllポスト作成ツール</title>
+  <style>
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    textarea {
+      height: 200px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Jekyllポスト作成ツール</h2>
+  <p>本文はマークダウン形式なので、プレビューしたい人はこの<a href="http://tools.kokecoco.me/markdown.html">マークダウンエディタ</a>で行ってください。</p>
+  <form id="postForm">
+    <label for="postTitle">タイトル:</label>
+    <input type="text" id="postTitle" name="title" required>
+    
+    <label for="postCategories">カテゴリ:</label>
+    <input type="text" id="postCategories" name="categories" required>
+    
+    <label for="postAuthor">著者:</label>
+    <input type="text" id="postAuthor" name="author" required>
+    
+    <label for="postContent">本文:</label>
+    <textarea id="postContent" name="content" required></textarea>
+    
+    <button type="submit">ファイル作成</button>
+  </form>
+
+  <div id="preview">
+    <h2>マークダウンプレビュー</h2>
+    <div id="markdownPreview"></div>
+  </div>
+
+  <script>
+    document.getElementById('postForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      createPost();
+    });
+
+    function createPost() {
+      var formData = new FormData(document.getElementById('postForm'));
+      var title = formData.get('title');
+      var categories = formData.get('categories');
+      var author = formData.get('author');
+      var content = formData.get('content');
+      
+      var currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+      var markdownContent = `---
+layout: post
+title: "${title}"
+date: ${currentDate}
+categories: ${categories}
+author: "${author}"
+---
+
+${content}`;
+
+      // エスケープ処理
+      var previewElement = document.getElementById('markdownPreview');
+      previewElement.innerText = markdownContent;
+    }
+  </script>
+</body>
+</html>
